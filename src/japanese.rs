@@ -115,12 +115,10 @@ pub mod japanese {
                     let slice = &word[i..i+j];
 
                     if let Some(hiragana) = self.map.get(slice) {
-                        if !hiragana.is_empty() {
-                            syllable_jump = j - 1;
-                            found_translation = true;
-                            hiragana_translation.push_str(hiragana);
-                            break
-                        }
+                        syllable_jump = j - 1;
+                        found_translation = true;
+                        hiragana_translation.push_str(hiragana);
+                        break
                     }
                 }
 
