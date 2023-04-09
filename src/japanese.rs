@@ -188,10 +188,10 @@ pub mod japanese {
 
                     let slice = &word[i..i+j];
 
-                    if let Some(Kana) = self.map.get(slice) {
+                    if let Some(kana) = self.map.get(slice) {
                         syllable_jump = j - 1;
                         found_translation = true;
-                        kana_translation.push_str(Kana);
+                        kana_translation.push_str(kana);
                         break
                     }
                 }
