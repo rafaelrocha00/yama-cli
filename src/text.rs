@@ -1,5 +1,8 @@
 use std::io::Stdout;
+use std::io::{Write};
 
+use crossterm::cursor::{MoveToNextLine, MoveToColumn};
+use crossterm::execute;
 use crossterm::{terminal, cursor, QueueableCommand, ExecutableCommand, style::Stylize};
 
 pub fn center(string: &str,  mut stdout: &Stdout) {
@@ -13,5 +16,11 @@ pub fn center(string: &str,  mut stdout: &Stdout) {
     stdout.queue(cursor::MoveTo(center_x, cursor_y)).unwrap();
 
     println!("{}", string.dim());
+
     stdout.execute(cursor::MoveToColumn(0)).unwrap();
+}
+
+pub fn left(string: &str, mut stdout: &Stdout) {
+    execute!(stdout, MoveToNextLine(1)).unwrap();
+    println!("{}", string.dim());
 }

@@ -1,5 +1,5 @@
 use std::io::{Stdout, Write};
-use crossterm::{event::{Event, read, KeyCode}, execute, cursor::{self, MoveToNextLine, MoveToColumn}, terminal::{ClearType, Clear}};
+use crossterm::{event::{Event, read, KeyCode}, execute, cursor::{self, MoveToNextLine, MoveToColumn, MoveTo}, terminal::{ClearType, Clear}};
 
 
 pub fn read_line(mut stdout: &Stdout) -> Result<String, &'static str> {
@@ -7,40 +7,41 @@ pub fn read_line(mut stdout: &Stdout) -> Result<String, &'static str> {
     execute!(stdout, MoveToColumn(0)).unwrap();
 
     let mut line = String::new();
+    let mut pos = 0;
 
    loop {
     if let Event::Key(key_event) = read().unwrap() {
         let key_code = key_event.code;
-        let mut end = false;
 
         match key_code {
             KeyCode::Backspace => {
-                line.pop();
+                if line.is_empty() || pos == 0 {
+                    continue;
+                }
 
+                line.remove(pos - 1);
+                pos -= 1;
             },
             KeyCode::Enter => {
-                end = true;
+                println!("");
+                clear();
+                return Ok(line);
             },
             KeyCode::Esc => {
             },
             KeyCode::Char(char) => {   
-                line.push(char);
+                line.insert(pos, char);
+                pos += 1;
             }
             _ => {
 
             }
         };
 
-        clear();
-        print!("{}", line);
+        execute!(stdout, MoveTo(0, cursor::position()?.1), Clear(ClearType::FromCursorDown)).unwrap();
+        print!("{}", &line);
         stdout.flush().unwrap();
-
-
-        if end {
-            println!("");
-            clear();
-            return Ok(line)
-        }
+        execute!(stdout, MoveToColumn(pos as u16)).unwrap();
     }
    }
 }

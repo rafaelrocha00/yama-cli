@@ -10,16 +10,17 @@ use crossterm::{
 
 mod japanese;
 mod text;
+mod input;
+mod options;
 
 fn main() -> Result<()> {
     enable_raw_mode()?;
     let mut stdout = stdout();
-    introduce(&stdout);
-
+    introduce(&mut stdout);
+    
     let kana = japanese::Kana::new(true);
-
     let mut string = String::new();
-
+    
     loop {
         if let Event::Key(key_event) = read()? {
             let key_code = key_event.code;
@@ -73,11 +74,17 @@ fn main() -> Result<()> {
     }
 }
 
-fn introduce(stdout: &Stdout) {
+fn introduce(stdout: &mut Stdout) {
+
     text::center("=^_^=", &stdout);
     text::center("Welcome to Yama-cli!", &stdout);
     text::center("Everthing you write will be in hiragana. You can toogle to katakana by using uppercase!", &stdout);
+    
+    text::left("Name ->", stdout);
+    let name = input::read_line(stdout).unwrap();    
 
+    text::left("Password ->", stdout);
+    let password = input::read_line(stdout).unwrap();  
 }
 
   
