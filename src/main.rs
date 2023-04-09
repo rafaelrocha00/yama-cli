@@ -1,5 +1,5 @@
-use std::io::{Write, stdout, Result};
-use crossterm::style::Print;
+use std::io::{Write, stdout, Result, Stdout};
+use crossterm::style::{Print};
 use crossterm::terminal::{Clear, ClearType};
 use crossterm::{
     execute, 
@@ -7,14 +7,16 @@ use crossterm::{
     terminal::{disable_raw_mode, enable_raw_mode},
     cursor
 };
-use yama_cli::japanese::Kana;
-use std::char;
+
+mod japanese;
+mod text;
 
 fn main() -> Result<()> {
     enable_raw_mode()?;
     let mut stdout = stdout();
+    introduce(&stdout);
 
-    let kana = Kana::new(true);
+    let kana = japanese::Kana::new(true);
 
     let mut string = String::new();
 
@@ -70,3 +72,12 @@ fn main() -> Result<()> {
         stdout.flush()?;
     }
 }
+
+fn introduce(stdout: &Stdout) {
+    text::center("=^_^=", &stdout);
+    text::center("Welcome to Yama-cli!", &stdout);
+    text::center("Everthing you write will be in hiragana. You can toogle to katakana by using uppercase!", &stdout);
+
+}
+
+  

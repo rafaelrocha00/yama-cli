@@ -1,9 +1,8 @@
-pub mod japanese {
-    use std::collections::hash_map::HashMap;
+use std::collections::hash_map::HashMap;
 
-    pub struct Kana {
-        map: HashMap<String, String>
-    }
+pub struct Kana {
+     map: HashMap<String, String>
+}
 
     impl Kana {
         pub fn new(use_katakana: bool) -> Kana {
@@ -203,5 +202,4 @@ pub mod japanese {
 
             kana_translation.chars().collect()
         }
-    }
 }
