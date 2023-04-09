@@ -1,7 +1,5 @@
 use std::io::Stdout;
-use std::io::{Write};
-
-use crossterm::cursor::{MoveToNextLine, MoveToColumn};
+use crossterm::cursor::MoveToNextLine;
 use crossterm::execute;
 use crossterm::{terminal, cursor, QueueableCommand, ExecutableCommand, style::Stylize};
 

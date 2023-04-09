@@ -30,5 +30,9 @@ impl Options {
 
         self.list.push(option)
     }
+
+    pub fn pick(&mut self) {
+
+    }
 }
 

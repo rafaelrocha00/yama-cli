@@ -4,7 +4,6 @@ use crossterm::{event::{Event, read, KeyCode}, execute, cursor::{self, MoveToNex
 
 pub fn read_line(mut stdout: &Stdout) -> Result<String, &'static str> {
     execute!(std::io::stdout(), MoveToNextLine(1)).unwrap();
-    execute!(stdout, MoveToColumn(0)).unwrap();
 
     let mut line = String::new();
     let mut pos = 0;
@@ -52,12 +51,4 @@ fn clear() {
         Clear(ClearType::CurrentLine),
         cursor::MoveToColumn(0),
     ).unwrap();
-}
-
-fn reset_cursor() {
-    execute!(std::io::stdout(), MoveToNextLine(1)).unwrap();
-}
-
-fn clear_line() {
-    execute!(std::io::stdout(), Clear(ClearType::CurrentLine), cursor::MoveToColumn(0)).unwrap();
 }

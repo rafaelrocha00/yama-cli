@@ -7,6 +7,7 @@ use crossterm::{
     terminal::{disable_raw_mode, enable_raw_mode},
     cursor
 };
+use options::Options;
 
 mod japanese;
 mod text;
@@ -79,12 +80,27 @@ fn introduce(stdout: &mut Stdout) {
     text::center("=^_^=", &stdout);
     text::center("Welcome to Yama-cli!", &stdout);
     text::center("Everthing you write will be in hiragana. You can toogle to katakana by using uppercase!", &stdout);
-    
+
+    let mut init_menu = Options::new();
+    init_menu.option("Create new Deck".to_string(), create_deck);
+    init_menu.option("Exit".to_string(), exit);
+    init_menu.pick();
+}
+
+fn get_info(stdout: &mut Stdout) {
     text::left("Name ->", stdout);
     let name = input::read_line(stdout).unwrap();    
 
     text::left("Password ->", stdout);
     let password = input::read_line(stdout).unwrap();  
+}
+
+fn create_deck() {
+
+}
+
+fn exit() {
+
 }
 
   
